@@ -1,7 +1,7 @@
 # Compiled class file
 *.class
 
-# Log file
+# Log files
 *.log
 
 # BlueJ files
@@ -25,3 +25,22 @@ replay_pid*
 
 # Kotlin Gradle plugin data, see https://kotlinlang.org/docs/whatsnew20.html#new-directory-for-kotlin-data-in-gradle-projects
 .kotlin/
+
+# Gradle files
+.gradle/
+build/
+
+# Android Studio files
+.idea/
+local.properties
+*.iml
+
+# Android build files
+/app/build/
+
+# Proguard files
+proguard/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
