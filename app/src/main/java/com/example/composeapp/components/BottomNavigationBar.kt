@@ -17,6 +17,10 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.composeapp.data.BottomNavigationItem
 
@@ -49,14 +53,20 @@ val items = listOf(
 
 @Composable
 fun BottomNavigationBar() {
+    var selected by remember {
+        mutableIntStateOf(0)
+    }
+
     NavigationBar {
         Row(
             modifier = Modifier.background(MaterialTheme.colorScheme.inverseOnSurface)
         ) {
             items.forEachIndexed { index, item ->
                 NavigationBarItem(
-                    selected = index == 0,
-                    onClick = {},
+                    selected = index == selected,
+                    onClick = {
+                        selected = index
+                    },
                     icon = {
                         BadgedBox(
                             badge = {
@@ -71,7 +81,7 @@ fun BottomNavigationBar() {
                         ) {
                             Icon(
                                 imageVector =
-                                if (index == 0) {
+                                if (index == selected) {
                                     item.selectedIcon
                                 } else {
                                     item.unselectedIcon
