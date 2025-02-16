@@ -89,7 +89,6 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             ),
             singleLine = true,
         )
-        Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = state.password,
             onValueChange = {
@@ -123,7 +122,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                 )
             }
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Button(
             modifier = Modifier.fillMaxWidth(0.8f).height(50.dp),
             shape = RoundedCornerShape(8.dp),
