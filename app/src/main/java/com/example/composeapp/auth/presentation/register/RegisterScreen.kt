@@ -1,4 +1,4 @@
-package com.example.composeapp.auth.presentation.login
+package com.example.composeapp.auth.presentation.register
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
-    val viewModel = viewModel<LoginViewModel>()
+fun RegisterScreen(modifier: Modifier = Modifier) {
+    val viewModel = viewModel<RegisterViewModel>()
     val state = viewModel.state
     val focusRequester = remember {
         FocusRequester()
@@ -46,11 +46,11 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         focusRequester.requestFocus()
         viewModel.validationEvents.collect { event ->
             when(event) {
-                is LoginViewModel.ValidationEvent.Success -> {
+                is RegisterViewModel.ValidationEvent.Success -> {
                     focusManager.clearFocus()
                     Toast.makeText(
                         context,
-                        "Login successful",
+                        "Register successful",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -64,9 +64,61 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
         OutlinedTextField(
+            value = state.firstName,
+            onValueChange = {
+                viewModel.onEvent(RegisterFormEvent.FirstNameChanged(it))
+            },
+            label = {
+                Text(text = "First Name")
+            },
+            supportingText = {
+                if (state.firstNameError != null) {
+                    Text(text = state.firstNameError)
+                }
+            },
+            isError = state.firstNameError != null,
+            modifier = Modifier.fillMaxWidth(0.8f).focusRequester(focusRequester),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next,
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Down)
+                }
+            ),
+            singleLine = true,
+        )
+        OutlinedTextField(
+            value = state.lastName,
+            onValueChange = {
+                viewModel.onEvent(RegisterFormEvent.LastNameChanged(it))
+            },
+            label = {
+                Text(text = "Last Name")
+            },
+            supportingText = {
+                if (state.lastNameError != null) {
+                    Text(text = state.lastNameError)
+                }
+            },
+            isError = state.lastNameError != null,
+            modifier = Modifier.fillMaxWidth(0.8f),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next,
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Down)
+                }
+            ),
+            singleLine = true,
+        )
+        OutlinedTextField(
             value = state.email,
             onValueChange = {
-                viewModel.onEvent(LoginFormEvent.EmailChanged(it))
+                viewModel.onEvent(RegisterFormEvent.EmailChanged(it))
             },
             label = {
                 Text(text = "Email")
@@ -77,7 +129,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                 }
             },
             isError = state.emailError != null,
-            modifier = Modifier.fillMaxWidth(0.8f).focusRequester(focusRequester),
+            modifier = Modifier.fillMaxWidth(0.8f),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next,
@@ -92,7 +144,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = state.password,
             onValueChange = {
-                viewModel.onEvent(LoginFormEvent.PasswordChanged(it))
+                viewModel.onEvent(RegisterFormEvent.PasswordChanged(it))
             },
             label = {
                 Text(text = "Password")
@@ -106,11 +158,11 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(0.8f),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done,
+                imeAction = ImeAction.Next,
             ),
             keyboardActions = KeyboardActions(
-                onDone = {
-                    viewModel.onEvent(LoginFormEvent.Submit)
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Down)
                 }
             ),
             singleLine = true,
@@ -122,15 +174,42 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                 )
             }
         )
+        OutlinedTextField(
+            value = state.repeatedPassword,
+            onValueChange = {
+                viewModel.onEvent(RegisterFormEvent.RepeatedPasswordChanged(it))
+            },
+            label = {
+                Text(text = "Confirm Password")
+            },
+            supportingText = {
+                if (state.repeatedPasswordError != null) {
+                    Text(text = state.repeatedPasswordError)
+                }
+            },
+            isError = state.repeatedPasswordError != null,
+            modifier = Modifier.fillMaxWidth(0.8f),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done,
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    viewModel.onEvent(RegisterFormEvent.Submit)
+                }
+            ),
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             modifier = Modifier.fillMaxWidth(0.8f).height(50.dp),
             shape = RoundedCornerShape(8.dp),
             onClick = {
-                viewModel.onEvent(LoginFormEvent.Submit)
-            },
+                viewModel.onEvent(RegisterFormEvent.Submit)
+            }
         ) {
-            Text(text = "Login")
+            Text(text = "Register")
         }
     }
 }
