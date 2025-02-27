@@ -2,7 +2,6 @@ package com.example.composeapp.routes
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -15,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.example.composeapp.app.presentation.home.HomeScreen
 import com.example.composeapp.auth.presentation.login.LoginScreen
 import com.example.composeapp.auth.presentation.register.RegisterScreen
 import com.example.composeapp.components.BottomNavigationBar
@@ -55,8 +55,6 @@ fun AppNavigation() {
         }
     }
 }
-
-@Composable fun HomeScreen() { Text("Home Screen") }
 
 @Composable
 fun shouldShowBottomBar(navController: NavController): Boolean {
